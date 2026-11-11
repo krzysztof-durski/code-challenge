@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ApiError, getSnapshot } from "../api/openMeteo";
 import type { SnapshotState } from "../types";
 
@@ -7,7 +7,9 @@ export function useCitySnapshot() {
   const [state, setState] = useState<SnapshotState>({ status: "idle" });
   const controllerRef = useRef<AbortController | null>(null);
 
-  async function search(rawQuery: string) {
+  // useCallback keeps the same function between renders, so callers can
+  // safely list it in an effect's dependencies. It only uses a ref and setState.
+  const search = useCallback(async (rawQuery: string) => {
     // cancel the previous request if there is one
     if (controllerRef.current) controllerRef.current.abort();
 
@@ -31,7 +33,7 @@ export function useCitySnapshot() {
       const kind = error instanceof ApiError ? error.kind : "unknown";
       setState({ status: "error", kind, query });
     }
-  }
+  }, []);
 
   // cancel the request when the component is removed
   useEffect(() => {

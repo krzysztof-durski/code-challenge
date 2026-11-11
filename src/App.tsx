@@ -19,9 +19,9 @@ export default function App() {
 
   // if the url has ?city=Tokyo, search it when the page loads
   useEffect(() => {
-    if (value.trim()) void search(value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const city = readCityParam();
+    if (city.trim()) void search(city);
+  }, [search]);
 
   return (
     <div className="shell">
