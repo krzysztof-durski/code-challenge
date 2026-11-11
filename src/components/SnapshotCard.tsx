@@ -1,4 +1,5 @@
 import { useNow } from '../hooks/useNow';
+import { roundTemperature } from '../lib/temperature';
 import { formatClock, formatDate, formatSunTime } from '../lib/time';
 import type { Snapshot } from '../types';
 
@@ -9,8 +10,7 @@ interface Props {
 export function SnapshotCard({ snapshot }: Props) {
   const now = useNow();
   const { city, region, country, temperatureC, condition, timezone, sunrise, sunset } = snapshot;
-  // adding 0 avoids showing "-0" when the temperature is like -0.3
-  const temperature = Math.round(temperatureC) + 0;
+  const temperature = roundTemperature(temperatureC);
   const where = [region, country].filter(Boolean).join(', ');
 
   return (
