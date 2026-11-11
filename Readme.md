@@ -68,10 +68,36 @@ Please submit:
 
 ## Setup Instructions
 
-Please fill this section in with the steps needed to run your solution locally.
-
-Example:
+Needs Node 20 or newer.
 
 ```bash
 npm install
-npm run dev
+npm run dev        # http://localhost:5173
+```
+
+Other scripts:
+
+```bash
+npm test           # unit and component tests
+npm run build      # typecheck and production build
+```
+
+Try `/?city=Tokyo` to open a result directly.
+
+## Notes
+
+Design and engineering decisions are in [docs/DECISIONS.md](docs/DECISIONS.md).
+
+Extra detail: sunrise and sunset.
+
+### AI usage
+
+**What AI helped with.** I used Claude Code (Claude Sonnet 5.5) to plan and write the app, the tests and the docs. It probed the Open-Meteo API with real requests before the code was written, which is where the "no results key means not found" and "times are local strings without an offset" facts come from. It also picked a design theme (Wayfind, from the Hallmark skill) and generated the token CSS.
+
+**What was changed.** TODO(author): list what you changed by hand after review.
+
+**What was verified.**
+- `npm test` runs a small set of tests for the logic that is easy to get wrong (API parsing, time zones, stale responses) and one per UX state.
+- Headless Chrome screenshots against the live API for the empty state, a found city, a not-found city, and a narrow viewport.
+- Typecheck and production build are clean.
+- Not verified: keyboard-only and screen reader use, and the loading skeleton on screen (it is covered by tests only).

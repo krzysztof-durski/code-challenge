@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+graphify-out
+.hallmark
+*.local
+.DS_Store
